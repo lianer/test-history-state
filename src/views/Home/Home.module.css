@@ -1,0 +1,10 @@
+.Entry {
+  padding: 0 24px;
+}
+.Item {
+  text-align: center;
+  font-size: 16px;
+}
+.Item a {
+  color: #333;
+}
