@@ -1,5 +1,4 @@
 import config from '../config';
-import { decrypt } from '../lib/encrypt';
 
 interface Res {
   code: string;
