@@ -7,9 +7,11 @@ import List from '../../views/List/List';
 import Detail from '../../views/Detail/Detail';
 
 const App: React.FC = () => {
+  const basename = process.env.REACT_APP_BASENAME || '/';
+
   return (
     <div className="App">
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route path="/">
             <Route index element={<Home />} />
