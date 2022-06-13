@@ -5,7 +5,6 @@ import {
   Skeleton,
   Button,
   Dropdown,
-  Space,
   Menu,
   MenuProps,
   message,
@@ -95,10 +94,10 @@ const MemoDropdown: React.FC<{
       }
       trigger={['click']}
     >
-      <Space style={{ height: 32, lineHeight: '32px' }}>
+      <Button type="text" style={{ cursor: 'pointer' }}>
         {areaLabel}
         <DownOutlined style={{ fontSize: 12 }} />
-      </Space>
+      </Button>
     </Dropdown>
   );
 });

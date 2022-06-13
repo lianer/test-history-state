@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import 'normalize.css';
+import 'antd/dist/antd.css';
 import './index.css';
+import ReactDOM from 'react-dom/client';
 import App from './layouts/App/App';
 import reportWebVitals from './reportWebVitals';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
-import 'antd/dist/antd.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

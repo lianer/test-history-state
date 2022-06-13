@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import './App.css';
 import Home from '../../views/Home/Home';
 import List from '../../views/List/List';
 import Detail from '../../views/Detail/Detail';
@@ -10,7 +9,14 @@ const App: React.FC = () => {
   const basename = process.env.REACT_APP_BASENAME || '/';
 
   return (
-    <div className="App">
+    <div
+      style={{
+        maxWidth: 720,
+        minHeight: '100vh',
+        margin: '0 auto',
+        background: '#fff',
+      }}
+    >
       <BrowserRouter basename={basename}>
         <Routes>
           <Route path="/">
