@@ -1,95 +1,10 @@
 import config from '../config';
 
-interface Res {
-  code: string;
-  flag: string;
-  message: string;
-  pageNo: number;
-  pageSize: number;
-  pageCount: number;
-  recordCount: number;
-  items: Item[];
-  dynamicFilter: DynamicFilter;
-  logParam: LogParam;
-  wordType: string;
-  abTest: AbTest;
-  searchParam: string;
-}
-
-interface AbTest {
-  ab_type: number;
-  scene: string;
-}
-
-interface LogParam {
-  status: string;
-}
-
-interface DynamicFilter {
-  specialList: SpecialList[];
-  hospitalLevelList: HospitalLevelList[];
-  hospitalTypeList: HospitalTypeList[];
-}
-
-interface HospitalTypeList {
-  typeId: number;
-  typeDesc: string;
-}
-
-interface HospitalLevelList {
-  hospitalLevelId: number;
-  hospitalLevelDesc: string;
-}
-
-interface SpecialList {
-  specialId: string;
-  specialName: string;
-}
-
-interface Item {
+export interface Item {
   hospitalId: string;
+  hospitalPhoto: string;
   hospitalName: string;
   hospitalAddress: string;
-  hospitalPhoto: string;
-  hospitalLevel: string;
-  hospitalLatitude: number;
-  hospitalLongitude: number;
-  patientCount: number;
-  orderCount: number;
-  score: number;
-  commentCount: number;
-  shotName: string;
-  isOrder: number;
-  prefixNameList: PrefixNameList[];
-  featureDeptList: FeatureDeptList[];
-  functionList: FunctionList[];
-  distanceDesc: string;
-  highlightHospitalName: string;
-  medicalInsurance: number;
-  hospitalType: string[];
-  hospitalTypeDescList: string[];
-  hospitalAscriptionList: string[];
-  openServicePackage: number;
-  importDeptList: string[];
-  rankDesc: string;
-  visitedTag: number;
-  onlinePay: number;
-  officialLabel: number;
-  sortNo: string;
-  itemSearchParam: string;
-}
-
-interface FunctionList {
-  functionName: string;
-}
-
-interface FeatureDeptList {
-  deptId: string;
-  deptName: string;
-}
-
-interface PrefixNameList {
-  prefixName: string;
 }
 
 const sleep = (delay: number) => {
@@ -101,7 +16,11 @@ export const getHospList = async function (
   pageSize = 10,
   area = '0'
 ): Promise<Item[]> {
-  await sleep(Math.random() * 500 + 200);
+  // await sleep(Math.random() * 500 + 2000);
+  await sleep(area === '1' ? 200 : 500);
+
+  // throw new Error('test');
+
   return fetch(`${config.API_SERVER}/hospital/hospitalsearch/list.json`, {
     method: 'POST',
     headers: {

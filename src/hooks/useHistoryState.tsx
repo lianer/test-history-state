@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import historyState from '../lib/historyState';
 
 // function useState<S>(initialState: S | (() => S)): [S, Dispatch<SetStateAction<S>>];
@@ -19,12 +19,13 @@ function useHistoryState<S>(
   }
 
   const ret = useState<S>(initialValue);
+  const state = ret[0];
 
   useEffect(() => {
     if (!disableHistoryState) {
-      historyState.setItem(stateKey, ret[0]);
+      historyState.setItem(stateKey, state);
     }
-  }, [ret[0]]);
+  }, [state, disableHistoryState, stateKey]);
 
   return ret;
 }

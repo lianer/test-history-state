@@ -1,7 +1,5 @@
 import { Button, PageHeader, Space } from 'antd';
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import s from './Detail.module.css';
 
 function Detail() {
   const nocache = useLocation().pathname.includes('/nocache');
