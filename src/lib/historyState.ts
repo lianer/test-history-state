@@ -80,6 +80,6 @@ class HistoryState {
   }
 }
 
-const historyState = new HistoryState();
+const historyState = new HistoryState(ApplyPlan.hijack);
 
 export default historyState;
