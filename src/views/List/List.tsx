@@ -18,6 +18,8 @@ import { useMount, useUpdateEffect } from 'ahooks';
 import { useCallback, memo } from 'react';
 import PQueue from 'p-queue';
 import { DownOutlined } from '@ant-design/icons';
+import historyState from '../../lib/historyState';
+import ScrollRecorder from '../../components/ScrollRecorder';
 
 const dummyHospItem = {
   hospitalId: '',
@@ -67,11 +69,7 @@ const LoadMore: React.FC<{ loading: boolean; onLoadMore: () => void }> = memo(
           lineHeight: '32px',
         }}
       >
-        {loading ? (
-          <Button>加载中...</Button>
-        ) : (
-          <Button onClick={onLoadMore}>加载更多</Button>
-        )}
+        {loading ? <Button>加载中...</Button> : <Button onClick={onLoadMore}>加载更多</Button>}
       </div>
     );
   }
@@ -79,7 +77,7 @@ const LoadMore: React.FC<{ loading: boolean; onLoadMore: () => void }> = memo(
 
 const MemoDropdown: React.FC<{
   areaLabel: string;
-  onAreaMenuSelect: MenuProps['onClick'];
+  onAreaMenuSelect: Required<MenuProps>['onClick'];
 }> = memo(({ areaLabel, onAreaMenuSelect }) => {
   return (
     <Dropdown
@@ -121,9 +119,7 @@ const CList: React.FC = () => {
     setList(list.concat(new Array(pageSize).fill(dummyHospItem)));
 
     try {
-      const items = await queue.add(() =>
-        getHospList(pageNo, pageSize, area.key)
-      );
+      const items = await queue.add(() => getHospList(pageNo, pageSize, area.key));
       queue.add(() => {
         setPageEnd(items.length < pageSize);
         setList(list.concat(items));
@@ -137,8 +133,7 @@ const CList: React.FC = () => {
   };
 
   useMount(() => {
-    const nocache =
-      list.length === 0 || list[list.length - 1] === dummyHospItem;
+    const nocache = list.length === 0 || list[list.length - 1] === dummyHospItem;
     if (nocache) fetchData();
   });
 
@@ -164,40 +159,32 @@ const CList: React.FC = () => {
 
   const onLinkMouseDown = useCallback((index: number) => {
     setActItem(index);
+    historyState.applyState();
   }, []);
 
   const getLink = useCallback(
     (item: HospItem) => {
-      return `/${nocache ? 'nocache' : 'cache'}/detail?hospId=${
-        item.hospitalId
-      }`;
+      return `/${nocache ? 'nocache' : 'cache'}/detail?hospId=${item.hospitalId}`;
     },
     [nocache]
   );
 
   return (
     <div style={{ paddingBottom: 40 }}>
+      {nocache ? null : <ScrollRecorder />}
+
       <PageHeader
         title="列表"
         subTitle="List"
         onBack={() => window.history.back()}
-        extra={
-          <MemoDropdown
-            areaLabel={area.label}
-            onAreaMenuSelect={onAreaMenuSelect}
-          />
-        }
+        extra={<MemoDropdown areaLabel={area.label} onAreaMenuSelect={onAreaMenuSelect} />}
       />
 
       <List
         itemLayout="vertical"
         size="large"
         dataSource={list}
-        loadMore={
-          pageEnd ? null : (
-            <LoadMore loading={loading} onLoadMore={onLoadMore} />
-          )
-        }
+        loadMore={pageEnd ? null : <LoadMore loading={loading} onLoadMore={onLoadMore} />}
         renderItem={(item, index) => (
           <Link to={getLink(item)} onMouseDown={() => onLinkMouseDown(index)}>
             {loading && index >= pageSize * (pageNo - 1) ? (
